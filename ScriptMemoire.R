@@ -29,8 +29,8 @@ data_variables <- data.frame(
 # a) Analyse de médiation selon le modèle de Baron & Kenny 
 
 #1) Effet c (sport sur rs)
-direct <- lm(rs_mean ~ s1, data = data_variables)
-summary(direct)
+total <- lm(rs_mean ~ s1, data = data_variables)
+summary(total)
 
 #2) Effet a (sport sur pcs)
 a_ffmq <- lm(ffmq_mean ~ s1, data = data_variables)
@@ -52,23 +52,23 @@ a_smq <- lm(smq_mean ~ s1, data = data_variables)
 summary(a_smq)
 
 
-#3.1) Effet b et c' (sport + pcs sur rs)
-total_ffmq <- lm(rs_mean ~ s1 + ffmq_mean, data = data_variables)
+#3.1) Effet b (pcs sur rs) et c' (sport + pcs sur rs)
+cprime_ffmq <- lm(rs_mean ~ s1 + ffmq_mean, data = data_variables)
 summary(total_ffmq)
 
-total_fmi <- lm(rs_mean ~ s1 + fmi_mean, data = data_variables)
+cprime_fmi <- lm(rs_mean ~ s1 + fmi_mean, data = data_variables)
 summary(total_fmi)
 
-total_maas <- lm(rs_mean ~ s1 + maas_mean, data = data_variables)
+cprime_maas <- lm(rs_mean ~ s1 + maas_mean, data = data_variables)
 summary(total_maas)
 
-total_cams <- lm(rs_mean ~ s1 + cams_mean, data = data_variables)
+cprime_cams <- lm(rs_mean ~ s1 + cams_mean, data = data_variables)
 summary(total_cams)
 
-total_maq <- lm(rs_mean ~ s1 + maq_mean, data = data_variables)
+cprime_maq <- lm(rs_mean ~ s1 + maq_mean, data = data_variables)
 summary(total_maq)
 
-total_smq <- lm(rs_mean ~ s1 + smq_mean, data = data_variables)
+cprime_smq <- lm(rs_mean ~ s1 + smq_mean, data = data_variables)
 summary(total_smq)
 
 #3.2) Création des coefficients des effets c et c' et calcul de la réduction de l'effet c 
@@ -76,23 +76,23 @@ summary(total_smq)
 #Création des coefficients
 
 #Dans un premier temps, je crée un coefficient pour l'effet c
-coef_direct_effect <- coef(direct)["s1"]
+coef_total_effect <- coef(total)["s1"]
 
 #Idem pour l'effet c'
-c_prime_ffmq <- coef(total_ffmq)["s1"]
-c_prime_fmi <- coef(total_fmi)["s1"]
-c_prime_maas <- coef(total_maas)["s1"]
-c_prime_cams <- coef(total_cams)["s1"]
-c_prime_maq <- coef(total_maq)["s1"]
-c_prime_smq <- coef(total_smq)["s1"]
+c_prime_ffmq <- coef(cprime_ffmq)["s1"]
+c_prime_fmi <- coef(cprime_fmi)["s1"]
+c_prime_maas <- coef(cprime_maas)["s1"]
+c_prime_cams <- coef(cprime_cams)["s1"]
+c_prime_maq <- coef(cprime_maq)["s1"]
+c_prime_smq <- coef(cprime_smq)["s1"]
 
 #Enfin, je peux calculer la réduction (c - c')
-reduction_ffmq <- coef_direct_effect - c_prime_ffmq
-reduction_fmi <- coef_direct_effect - c_prime_fmi
-reduction_maas <- coef_direct_effect - c_prime_maas
-reduction_cams <- coef_direct_effect - c_prime_cams
-reduction_maq <- coef_direct_effect - c_prime_maq
-reduction_smq <- coef_direct_effect - c_prime_smq
+reduction_ffmq <- coef_total_effect - c_prime_ffmq
+reduction_fmi <- coef_total_effect - c_prime_fmi
+reduction_maas <- coef_total_effect - c_prime_maas
+reduction_cams <- coef_total_effect - c_prime_cams
+reduction_maq <- coef_total_effect - c_prime_maq
+reduction_smq <- coef_total_effect - c_prime_smq
 
 #J'affiche mes valeurs
 print(reduction_ffmq)
@@ -114,7 +114,7 @@ data_variables[] <- lapply(data_variables, function(x) if (inherits(x, "haven_la
 # Obtenir les estimations standardisées : 
 
 #pour H1
-parameters(direct, standardize = "basic")
+parameters(total, standardize = "basic")
 
 #pour H2
 parameters(a_ffmq, standardize = "basic")
@@ -124,20 +124,20 @@ parameters(a_cams, standardize = "basic")
 parameters(a_maq, standardize = "basic")
 parameters(a_smq, standardize = "basic")
 
-#pour H3
-parameters(total_ffmq, standardize = "basic")
-parameters(total_fmi, standardize = "basic")
-parameters(total_maas, standardize = "basic")
-parameters(total_cams, standardize = "basic")
-parameters(total_maq, standardize = "basic")
-parameters(total_smq, standardize = "basic")
+#pour H3 et H4
+parameters(cprime_ffmq, standardize = "basic")
+parameters(cprime_fmi, standardize = "basic")
+parameters(cprime_maas, standardize = "basic")
+parameters(cprime_cams, standardize = "basic")
+parameters(cprime_maq, standardize = "basic")
+parameters(cprime_smq, standardize = "basic")
 
 # Tableau : Chargement du package sjPlot (+fonction if pour l'installer si besoin) pour l'affichage du tableau
 if (!require(sjPlot)) install.packages("sjPlot")
 library(sjPlot)
 
 #pour H1 :
-tab_model(direct, file = "direct.html")
+tab_model(total, file = "total.html")
 
 #pour H2 : 
 tab_model(a_ffmq)
@@ -147,18 +147,18 @@ tab_model(a_cams)
 tab_model(a_maq)
 tab_model(a_smq)
 
-#pour H3 : 
-tab_model(total_ffmq)
-tab_model(total_fmi)
-tab_model(total_maas)
-tab_model(total_cams)
-tab_model(total_maq)
-tab_model(total_smq)
+#pour H3 et H4 : 
+tab_model(direct_ffmq)
+tab_model(direct_fmi)
+tab_model(direct_maas)
+tab_model(direct_cams)
+tab_model(direct_maq)
+tab_model(direct_smq)
 
 # Sauvegarde dans un fichier png en passant par du html (solution trouvée suite à fichier pdf corrompu lors de son ouverture)
 
 #pour H1
-tab_model(direct, file = "direct.html")
+tab_model(total, file = "total.html")
 
 #pour H2
 tab_model(a_ffmq, file = "H2ffmq.html")
@@ -168,13 +168,13 @@ tab_model(a_cams, file = "H2cams.html")
 tab_model(a_maq, file = "H2maq.html")
 tab_model(a_smq, file = "H2smq.html")
 
-#pour H3
-tab_model(total_ffmq, file="model_ffmq.html")
-tab_model(total_fmi, file="model_fmi.html")
-tab_model(total_maas, file="model_maas.html")
-tab_model(total_cams, file="model_cams.html")
-tab_model(total_maq, file="model_maq.html")
-tab_model(total_smq, file="model_smq.html")
+#pour H3 et H4
+tab_model(direct_ffmq, file="model_ffmq.html")
+tab_model(direct_fmi, file="model_fmi.html")
+tab_model(direct_maas, file="model_maas.html")
+tab_model(direct_cams, file="model_cams.html")
+tab_model(direct_maq, file="model_maq.html")
+tab_model(direct_smq, file="model_smq.html")
 
 # Chargement de la librairie webshot (+fonction if pour l'installer si besoin)
 if (!require(webshot)) install.packages("webshot")
@@ -186,7 +186,7 @@ install_phantomjs()
 # Conversion du fichier html en .png 
 
 #pour H1
-webshot("direct.html", "direct.png")
+webshot("total.html", "total.png")
 
 #pour H2 : 
 webshot("H2ffmq.html", "H2ffmq.png")
