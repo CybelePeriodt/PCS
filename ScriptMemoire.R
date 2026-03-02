@@ -86,6 +86,15 @@ c_prime_cams <- coef(cprime_cams)["s1"]
 c_prime_maq <- coef(cprime_maq)["s1"]
 c_prime_smq <- coef(cprime_smq)["s1"]
 
+#J'affiche mes coefficients
+print(coef_total_effect)
+print(c_prime_ffmq)
+print(c_prime_fmi)
+print(c_prime_maas)
+print(c_prime_cams)
+print(c_prime_maq)
+print(c_prime_smq)
+
 #Enfin, je peux calculer la réduction (c - c')
 reduction_ffmq <- coef_total_effect - c_prime_ffmq
 reduction_fmi <- coef_total_effect - c_prime_fmi
