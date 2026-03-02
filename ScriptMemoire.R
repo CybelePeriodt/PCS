@@ -54,22 +54,22 @@ summary(a_smq)
 
 #3.1) Effet b (pcs sur rs) et c' (sport + pcs sur rs)
 cprime_ffmq <- lm(rs_mean ~ s1 + ffmq_mean, data = data_variables)
-summary(total_ffmq)
+summary(cprime_ffmq)
 
 cprime_fmi <- lm(rs_mean ~ s1 + fmi_mean, data = data_variables)
-summary(total_fmi)
+summary(cprime_fmi)
 
 cprime_maas <- lm(rs_mean ~ s1 + maas_mean, data = data_variables)
-summary(total_maas)
+summary(cprime_maas)
 
 cprime_cams <- lm(rs_mean ~ s1 + cams_mean, data = data_variables)
-summary(total_cams)
+summary(cprime_cams)
 
 cprime_maq <- lm(rs_mean ~ s1 + maq_mean, data = data_variables)
-summary(total_maq)
+summary(cprime_maq)
 
 cprime_smq <- lm(rs_mean ~ s1 + smq_mean, data = data_variables)
-summary(total_smq)
+summary(cprime_smq)
 
 #3.2) Création des coefficients des effets c et c' et calcul de la réduction de l'effet c 
 
